@@ -1,0 +1,41 @@
+id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
+1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18
+2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
+3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
+4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
+5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05
+6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
+7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
+8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
+9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
+10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+11,Velvet Strings,The Strums,folk,relaxed,0.33,85,0.68,0.45,0.91
+12,Thunder Protocol,Voltline,rock,intense,0.88,148,0.42,0.70,0.08
+13,Pink Noise Dreams,Orbit Bloom,ambient,chill,0.22,55,0.58,0.38,0.95
+14,Late Night Jazz,Slow Stereo,jazz,relaxed,0.41,94,0.74,0.52,0.87
+15,Bass Drop City,Max Pulse,electronic,intense,0.95,140,0.55,0.92,0.03
+16,Golden Hour Walk,Indigo Parade,indie pop,happy,0.69,116,0.85,0.76,0.42
+17,Synthwave Sunset,Neon Echo,synthwave,moody,0.72,105,0.53,0.68,0.19
+18,Sunday Morning,The Strums,folk,relaxed,0.30,78,0.72,0.48,0.93
+19,Focus Block,LoRoom,lofi,focused,0.38,76,0.55,0.58,0.80
+20,Electric Pulse,Voltline,rock,energetic,0.85,138,0.60,0.75,0.12
+21,Whisper Woods,Paper Lanterns,ambient,chill,0.25,58,0.70,0.35,0.96
+22,Club Lights,Max Pulse,pop,energetic,0.90,128,0.80,0.91,0.04
+23,Neon Boulevard,Neon Echo,synthwave,moody,0.78,112,0.46,0.71,0.16
+24,Rain on Glass,Slow Stereo,jazz,moody,0.35,88,0.52,0.49,0.88
+25,Mountain High,The Strums,folk,happy,0.50,95,0.78,0.60,0.85
+26,Study Mode,LoRoom,lofi,focused,0.37,74,0.61,0.56,0.82
+27,Cherry Blossoms,Indigo Parade,indie pop,happy,0.65,112,0.88,0.78,0.48
+28,Voltage Rush,Voltline,rock,intense,0.94,155,0.40,0.68,0.06
+29,City Fog,Paper Lanterns,ambient,moody,0.32,62,0.44,0.40,0.90
+30,Neon Heartbeat,Neon Echo,pop,energetic,0.87,126,0.79,0.85,0.11
+31,Campfire Stories,The Strums,folk,relaxed,0.27,80,0.75,0.43,0.94
+32,Late Shift,LoRoom,lofi,focused,0.44,82,0.53,0.64,0.74
+33,Sugar Rush,Max Pulse,pop,happy,0.89,130,0.88,0.90,0.07
+34,Midnight Garden,Orbit Bloom,ambient,chill,0.20,52,0.62,0.37,0.97
+35,Jazz After Dark,Slow Stereo,jazz,moody,0.39,92,0.50,0.51,0.86
+36,Indie Afternoon,Indigo Parade,indie pop,relaxed,0.61,108,0.76,0.72,0.45
+37,Power Chord,Voltline,rock,intense,0.92,150,0.45,0.72,0.09
+38,Lo-Fi Sunrise,LoRoom,lofi,happy,0.46,84,0.70,0.65,0.69
+39,Synthwave Drive,Neon Echo,synthwave,energetic,0.80,118,0.58,0.76,0.14
+40,Porch Swing,The Strums,folk,happy,0.42,88,0.82,0.55,0.92
