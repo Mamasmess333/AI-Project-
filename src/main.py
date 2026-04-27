@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from ai_agent import display_result, run_agentic_workflow
-from llm_client import ClaudeClient
+from llm_client import GeminiClient
 from logger import get_logger, log_event
 from recommender import load_songs, recommend_songs
 
@@ -28,7 +28,7 @@ _logger = get_logger("main")
 
 def _try_create_client():
     try:
-        return ClaudeClient(), True
+        return GeminiClient(), True
     except RuntimeError as exc:
         print(f"\n[Warning] AI features disabled: {exc}")
         print("Running in rule-based fallback mode.\n")
@@ -59,7 +59,7 @@ def _rule_based_mode():
 def main():
     print("\n╔══════════════════════════════════════╗")
     print("║   AI Music Recommender               ║")
-    print("║   Powered by Claude + Rule-Based RAG ║")
+    print("║   Powered by Gemini + Rule-Based RAG ║")
     print("╚══════════════════════════════════════╝")
 
     llm, has_llm = _try_create_client()

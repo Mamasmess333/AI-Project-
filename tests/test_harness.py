@@ -20,7 +20,7 @@ load_dotenv()
 
 from ai_agent import run_agentic_workflow
 from evaluator import compute_confidence
-from llm_client import ClaudeClient
+from llm_client import GeminiClient
 from recommender import load_songs, recommend_songs
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "songs.csv")
@@ -122,7 +122,7 @@ def run_harness():
     print("=" * 58)
 
     try:
-        llm = ClaudeClient()
+        llm = GeminiClient()
     except RuntimeError as exc:
         print(f"\n[FATAL] Cannot run harness without API key: {exc}\n")
         sys.exit(1)

@@ -2,9 +2,9 @@
 Agentic workflow orchestrator for the AI Music Recommender.
 
 Three observable steps:
-  Step 1 — Preference Parser  (Claude: natural language → structured prefs)
+  Step 1 — Preference Parser  (Gemini: natural language → structured prefs)
   Step 2 — Song Retriever     (Rule-based: score all 40 songs, return top 10)
-  Step 3 — AI Ranker          (Claude: re-rank candidates, write explanations)
+  Step 3 — AI Ranker          (Gemini: re-rank candidates, write explanations)
 
 Confidence evaluation follows as a post-processing pass.
 """
@@ -15,7 +15,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from evaluator import compute_confidence, confidence_label
-from llm_client import ClaudeClient
+from llm_client import GeminiClient
 from logger import get_logger, log_event
 from recommender import load_songs, recommend_songs
 
@@ -28,7 +28,7 @@ def _divider(char="─", width=52):
     print(char * width)
 
 
-def run_agentic_workflow(query: str, llm: ClaudeClient) -> dict:
+def run_agentic_workflow(query: str, llm: GeminiClient) -> dict:
     """
     Runs the full 3-step agentic pipeline and returns a result dict:
     {
@@ -48,7 +48,7 @@ def run_agentic_workflow(query: str, llm: ClaudeClient) -> dict:
     print()
 
     # ── Step 1: Parse preferences ──────────────────────────────────
-    print("[STEP 1/3] Parsing your preferences with Claude...")
+    print("[STEP 1/3] Parsing your preferences with Gemini...")
     try:
         prefs = llm.parse_preferences(query)
         print(
@@ -72,7 +72,7 @@ def run_agentic_workflow(query: str, llm: ClaudeClient) -> dict:
 
     # ── Step 3: AI ranking ─────────────────────────────────────────
     print()
-    print("[STEP 3/3] Claude is ranking and personalizing recommendations...")
+    print("[STEP 3/3] Gemini is ranking and personalizing recommendations...")
     try:
         ai_output = llm.rank_and_explain(query, candidates)
         log_event(_logger, "ai_ranking_complete", {"query": query, "output_length": len(ai_output)})

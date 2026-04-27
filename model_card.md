@@ -4,7 +4,7 @@
 
 | Field | Value |
 |---|---|
-| Base LLM | claude-sonnet-4-6 (Anthropic) |
+| Base LLM | gemini-2.5-flash (Google) |
 | Task | Music recommendation via agentic workflow |
 | Input | Natural language music request |
 | Output | Ranked song recommendations with explanations + confidence score |
@@ -14,9 +14,9 @@
 
 ## AI Collaboration During This Project
 
-**Helpful instance:** Claude accurately parsed ambiguous requests like *"something lo-fi for when it's raining"* into structured preferences (`genre: lofi`, `mood: chill`, `energy: 0.35`, `likes_acoustic: true`) without any examples being provided. This made the preference parsing step robust from the start.
+**Helpful instance:** Gemini accurately parsed ambiguous requests like *"something lo-fi for when it's raining"* into structured preferences (`genre: lofi`, `mood: chill`, `energy: 0.35`, `likes_acoustic: true`) without any examples being provided. This made the preference parsing step robust from the start.
 
-**Flawed instance:** In early testing, Claude occasionally returned genre values not in the allowed list (e.g., `"lo-fi"` instead of `"lofi"`, or `"hip hop"` instead of `"hip-hop"`). The parser would then crash on JSON key mismatches. I fixed this by adding strict normalization and a try/except fallback in `ai_agent.py` that defaults to neutral preferences rather than crashing.
+**Flawed instance:** In early testing, Gemini occasionally returned genre values not in the allowed list (e.g., `"lo-fi"` instead of `"lofi"`, or `"hip hop"` instead of `"hip-hop"`). The parser would then crash on JSON key mismatches. I fixed this by adding strict normalization and a try/except fallback in `ai_agent.py` that defaults to neutral preferences rather than crashing.
 
 ---
 
@@ -26,7 +26,7 @@
 - **Western genre bias:** The dataset covers pop, rock, jazz, and electronic genres. Non-Western genres (Afrobeats, K-pop, Bollywood) are absent.
 - **Mood subjectivity:** Labels like "chill" or "moody" are subjective and may not align with individual users' emotional vocabulary.
 - **Energy scale:** The 0.0–1.0 energy scale is manually assigned and may not match how users intuitively describe intensity.
-- **LLM hallucination risk:** Claude could recommend a song from outside the candidate list. The prompt explicitly instructs against this, but prompt adherence is probabilistic.
+- **LLM hallucination risk:** Gemini could recommend a song from outside the candidate list. The prompt explicitly instructs against this, but prompt adherence is probabilistic.
 
 ---
 
@@ -51,10 +51,10 @@
 
 **Results observed during development:**
 - 5 of 6 tests passed consistently across multiple runs
-- Test 2 (chill/acoustic) occasionally failed the energy ceiling check when Claude parsed `energy: 0.6` instead of `0.4` for ambiguous requests — resolved by adding a clearer energy scale description to the parsing prompt
+- Test 2 (chill/acoustic) occasionally failed the energy ceiling check when Gemini parsed `energy: 0.6` instead of `0.4` for ambiguous requests — resolved by adding a clearer energy scale description to the parsing prompt
 - Average confidence score across all test cases: ~0.74
 
-**What surprised me:** The rule-based retriever (Step 2) performed better than expected on edge cases. When Claude's preference parsing returned slightly off values, the scoring function still surfaced reasonable candidates because energy closeness is a continuous score rather than a binary match.
+**What surprised me:** The rule-based retriever (Step 2) performed better than expected on edge cases. When Gemini's preference parsing returned slightly off values, the scoring function still surfaced reasonable candidates because energy closeness is a continuous score rather than a binary match.
 
 ---
 

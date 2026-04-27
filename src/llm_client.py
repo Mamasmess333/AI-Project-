@@ -1,13 +1,13 @@
 """
-Claude API client for the AI Music Recommender.
+Gemini API client for the AI Music Recommender.
 Handles preference parsing (Step 1) and AI ranking/explanation (Step 3).
 """
 
 import json
 import os
-import anthropic
+import google.generativeai as genai
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "gemini-2.5-flash"
 
 _SYSTEM_PROMPT = (
     "You are an expert music curator and recommendation engine. "
@@ -16,14 +16,15 @@ _SYSTEM_PROMPT = (
 )
 
 
-class ClaudeClient:
+class GeminiClient:
     def __init__(self):
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise RuntimeError(
-                "Missing ANTHROPIC_API_KEY. Add it to your .env file or shell environment."
+                "Missing GEMINI_API_KEY. Add it to your .env file or shell environment."
             )
-        self.client = anthropic.Anthropic(api_key=api_key)
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel(MODEL, system_instruction=_SYSTEM_PROMPT)
 
     def parse_preferences(self, natural_query: str) -> dict:
         """Step 1 — Convert free-text request into structured preference dict."""
@@ -39,13 +40,8 @@ Reply with ONLY a valid JSON object — no markdown, no explanation — using th
 
 Example output: {{"genre": "lofi", "mood": "focused", "energy": 0.4, "likes_acoustic": true}}"""
 
-        message = self.client.messages.create(
-            model=MODEL,
-            max_tokens=150,
-            system=_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw = message.content[0].text.strip()
+        response = self.model.generate_content(prompt)
+        raw = (response.text or "").strip()
         raw = raw.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
         return json.loads(raw)
 
@@ -74,10 +70,5 @@ Why: [Your explanation of why this fits the user's request]
 
 Rank from best to least match. Only pick songs from the list above."""
 
-        message = self.client.messages.create(
-            model=MODEL,
-            max_tokens=700,
-            system=_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        return message.content[0].text.strip()
+        response = self.model.generate_content(prompt)
+        return (response.text or "").strip()

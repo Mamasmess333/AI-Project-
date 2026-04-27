@@ -22,9 +22,9 @@ The Module 2 project was a rule-based music recommender that scored songs agains
 This project extends the Module 2 recommender into a **full agentic AI system** that:
 
 1. Accepts **natural language** requests ("something chill for studying")
-2. Uses **Claude (claude-sonnet-4-6)** to parse preferences into structured data
+2. Uses **Gemini (gemini-2.5-flash)** to parse preferences into structured data
 3. Runs the original **rule-based retriever** to candidate-filter a 40-song library
-4. Uses **Claude again** to re-rank candidates and write personalized explanations
+4. Uses **Gemini again** to re-rank candidates and write personalized explanations
 5. Computes a **confidence score** (0.0–1.0) for each result set
 6. **Logs every step** to `logs/recommender.log`
 7. Includes an **automated test harness** with 6 predefined test cases
@@ -40,9 +40,9 @@ This project extends the Module 2 recommender into a **full agentic AI system** 
 **Data flow:**
 ```
 User (natural language)
-  → [Step 1] Preference Parser  (Claude)
+  → [Step 1] Preference Parser  (Gemini)
   → [Step 2] Song Retriever     (Rule-based scoring, 40 songs)
-  → [Step 3] AI Ranker          (Claude + retrieved context)
+  → [Step 3] AI Ranker          (Gemini + retrieved context)
   → Confidence Evaluator
   → Final output: top 3–5 songs + explanations + score
 ```
@@ -88,7 +88,7 @@ pip install -r requirements.txt
 
 ```bash
 cp .env.example .env
-# Open .env and replace the placeholder with your real ANTHROPIC_API_KEY
+# Open .env and replace the placeholder with your real GEMINI_API_KEY
 ```
 
 ### 5. Run the system
@@ -112,13 +112,13 @@ python tests/test_harness.py
 ```
 Your request: "something lo-fi and acoustic for a late-night study session"
 
-[STEP 1/3] Parsing your preferences with Claude...
+[STEP 1/3] Parsing your preferences with Gemini...
   → genre: lofi  |  mood: focused  |  energy: 0.38  |  acoustic: True
 
 [STEP 2/3] Retrieving candidate songs from library...
   → Retrieved 10 candidates from 40-song library
 
-[STEP 3/3] Claude is ranking and personalizing recommendations...
+[STEP 3/3] Gemini is ranking and personalizing recommendations...
 
 ────────────────────────────────────────────────────
   Your Personalized Recommendations
@@ -143,13 +143,13 @@ Why: Built for focus with a measured 80 BPM and predominantly acoustic texture, 
 ```
 Your request: "high energy to get me through leg day"
 
-[STEP 1/3] Parsing your preferences with Claude...
+[STEP 1/3] Parsing your preferences with Gemini...
   → genre: any  |  mood: intense  |  energy: 0.9  |  acoustic: False
 
 [STEP 2/3] Retrieving candidate songs from library...
   → Retrieved 10 candidates from 40-song library
 
-[STEP 3/3] Claude is ranking and personalizing recommendations...
+[STEP 3/3] Gemini is ranking and personalizing recommendations...
 
 🎵 Bass Drop City by Max Pulse
 Why: At 0.95 energy and 140 BPM this is built for the heaviest sets — pure drive with no acoustic softness to break the intensity.
@@ -170,13 +170,13 @@ Why: Named for exactly this moment — 0.93 energy and high danceability mean yo
 ```
 Your request: "music"
 
-[STEP 1/3] Parsing your preferences with Claude...
+[STEP 1/3] Parsing your preferences with Gemini...
   → genre: any  |  mood: any  |  energy: 0.5  |  acoustic: False
 
 [STEP 2/3] Retrieving candidate songs from library...
   → Retrieved 10 candidates from 40-song library
 
-[STEP 3/3] Claude is ranking and personalizing recommendations...
+[STEP 3/3] Gemini is ranking and personalizing recommendations...
 
 🎵 Rooftop Lights by Indigo Parade
 Why: A versatile indie pop track with balanced energy (0.76) and high valence — a safe starting point for any listener.
@@ -194,14 +194,14 @@ Why: A versatile indie pop track with balanced energy (0.76) and high valence �
 Separating parsing from ranking makes failures observable and recoverable. If Step 1 (parsing) fails, we fall back to neutral defaults rather than crashing. If Step 3 (ranking) fails, we fall back to the rule-based output. Each step has its own logging and error handling.
 
 **Why keep the original rule-based retriever?**
-The original Module 2 scoring function is deterministic and fast. Using it as Step 2 gives the system a reliable pre-filter before handing candidates to Claude. This is cheaper (fewer tokens), faster, and more predictable than asking Claude to rank all 40 songs directly.
+The original Module 2 scoring function is deterministic and fast. Using it as Step 2 gives the system a reliable pre-filter before handing candidates to Gemini. This is cheaper (fewer tokens), faster, and more predictable than asking Gemini to rank all 40 songs directly.
 
 **Why TF-IDF / inverted index instead of vector embeddings?**
 The song library is small (40 songs) and the features are categorical. A vector embedding store would add infrastructure complexity without meaningful accuracy gains at this scale. The rule-based scorer is fully explainable and needs no external embedding API.
 
 **Trade-offs:**
 - The 40-song dataset limits recommendation diversity. A production version would need thousands of real tracks.
-- Parsing accuracy depends on Claude's interpretation of vague requests. A more robust version would add few-shot examples to the parsing prompt.
+- Parsing accuracy depends on Gemini's interpretation of vague requests. A more robust version would add few-shot examples to the parsing prompt.
 
 ---
 
@@ -238,7 +238,7 @@ applied-ai-system-project/
 ├── src/
 │   ├── main.py          # Entry point
 │   ├── recommender.py   # Original rule-based scoring (base project)
-│   ├── llm_client.py    # Claude API — parsing + ranking
+│   ├── llm_client.py    # Gemini API — parsing + ranking
 │   ├── ai_agent.py      # Agentic workflow orchestrator
 │   ├── evaluator.py     # Confidence scoring
 │   └── logger.py        # Structured JSON logging
